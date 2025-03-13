@@ -1,0 +1,1 @@
+An old project that, while it works, is extremely simple and could be better implemented. It did not go to full 'click and run' phase, and if I ever go back to it to finish it, I'll update this accordingly.
