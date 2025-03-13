@@ -1,0 +1,316 @@
+@media screen and (min-width: 640px){
+    .flex-container {
+        display: flex;
+    }    
+}
+
+/* Page Sizing Styles.*/
+
+main {border: hidden;}
+
+section, aside {
+    margin: 0px;
+    padding: 10px;
+    border: 2px double #000000;
+}
+
+.goodbye, .greeting {
+    width: 90%;
+    margin: auto;
+    max-width: 926px;
+    padding: 10px; /*DNAlter, padding makes it weird.*/
+    background-color: rgba(40, 40, 59, 0.80);
+    /*Oddly specific width is cause of margins.*/
+}
+
+.flex-container {
+    width: 90%;
+    max-width: 950px;
+    margin: auto;
+    text-align: left;
+    background-color: rgba(40, 40, 59, 0.8);
+}
+
+.statBox {
+    flex: 1;
+}
+
+.sidebar {
+    flex: 0 1 275px;
+    text-align: center;
+}
+
+/* Assignment Styling */
+.topBox {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.detailAssign, .statAssign {
+    align-items: left;
+    flex: 1 1 48%;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* Character Sheet Styling */
+.botBox {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: left;
+    
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.statSheet {
+    flex: 0 1 180px;
+    align-items: left;
+}
+
+.charaSheet {
+    flex: 1;
+    margin-left: 10px;
+}
+
+table {
+    border: 0px hidden;
+    width: 180px;
+    table-layout: fixed;
+}
+
+.statTag {
+    width: 75px;
+    text-align: right;
+}
+
+.statRoll {
+    width: 35px;
+    text-align: center;
+}
+
+/* External framing details. */
+
+header {
+    text-align: center;
+}
+
+h1 {
+    font-family: "Dancing Script", cursive;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.8), 1px -1px 0 rgba(0, 0, 0, 0.8), -1px 1px 0 rgba(0, 0, 0, 0.8), 1px 1px 0 rgba(0, 0, 0, 0.8);
+    line-height: 50%;
+    letter-spacing: -1px;
+    color: #d4d4d4;
+}
+
+.top {
+    font-size: 50px;
+    margin-right: 30px;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.bot {
+    font-size: 45px;
+    margin-left: 30px;
+    text-align: left;
+    margin-top: 15px;
+}
+
+/* Actual Content Styles. */
+
+body {
+    background-image: url(https://cdn.discordapp.com/attachments/835682357125578772/1099875200956383272/LavParch.png);
+    background-image: url(LavParch.png); /*Local Stored Copy.*/
+    background-color: rgb(76, 55, 82); /*Failsafe color-only.*/
+    margin: 0;
+}
+
+p {
+    margin: 0px auto 0px auto;
+    font-size: 17px;
+    line-height: 1.45;
+    color: #d4d4d4;
+    font-family: "Georgia";
+}
+
+.subhead {
+    font-size: 25px;
+    line-height: 1;
+    letter-spacing: +5px;
+    margin: 3px auto 5px auto;
+}
+
+.warning {
+    font-size: 14px;
+    color:rgba(221, 221, 221, 0.755);
+    margin-bottom: 5px;
+}
+
+.diceLabel {
+    font-size: 16px;
+    color:#d4d4d4;
+    margin-bottom: 2px;
+}
+
+.label {
+    font-size: 20px;
+    line-height: 1;
+    margin: 3px auto -20px auto;
+}
+
+.stats { 
+    text-align: center;
+    color: #d4d4d4;
+    font-family: "Georgia";
+    font-size: 25px;
+    line-height: 1.45;
+}
+
+.totals {
+    color:rgba(221, 221, 221, 0.755);
+    font-family: "Georgia";
+    font-size: 15px;
+}
+
+.num {
+    font-size: 28px;
+}
+
+hr {
+    width:85%;
+    text-align:center;
+}
+
+/* Clicky Things Styles. */
+
+.buttn {
+    width: 250px;
+    height: 40px;
+    vertical-align: center;
+    background: #252d38;
+    border: 2px dotted #000000;
+    border-radius: 4px;
+    padding: 7px 14px 7px 14px;
+    transition-duration: 0.4s;
+    color: #ffffff;
+    font-size: 20px;
+    font-family: "Georgia";
+    text-decoration: none;
+    margin-bottom: 3px;
+}
+
+.buttnLng {
+    font-size: 17px;
+}
+
+.buttnTny {
+    font-size: 18px;
+}
+
+.buttn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    background: #500000;
+    text-decoration: none;
+}
+
+/* Input Styles */
+
+input[type="text"] {
+    padding: 2px 2px;
+    vertical-align: left;
+    height: 20px;
+    width: 250px;
+    border-radius: 4px;
+    border: 2px inset #000000;
+    background-color: #c0c0c0;
+    font-size: 20px;
+    font-family: "Calibri";
+
+    margin-top: 10px;
+    margin-bottom: 16px;
+}
+
+textarea {
+    padding: 2px 2px;
+    vertical-align: left;
+    height:100px;
+    width: 250px;
+    border-radius: 4px;
+    border: 2px inset #000000;
+    background-color: #c0c0c0;
+    resize: none;
+    font-size: 16px;
+    font-family: "Calibri";
+
+    margin-top: 10px;
+    margin-bottom: 16px;
+}
+
+input[type="number"] {
+    padding: 2px 2px;
+    vertical-align: left;
+    height: 20px;
+    width: 50px;
+    border-radius: 4px;
+    border: 2px inset #000000;
+    background-color: #c0c0c0;
+    margin-left: 15px;
+    float: inline-end;
+    font-size: 20px;
+    font-family: "Calibri";
+}
+
+/* Stat Priority List Styles. */
+
+ul {
+    --icon-space: 15px;
+    list-style: none;
+    padding-left: 10px;
+
+    color: #d4d4d4;
+    font-size: 20px;
+    font-family: "Georgia";
+}
+
+li {
+    display: block;
+    position: relative;
+    width: 250px; 
+    padding-left: var(--icon-space);
+    padding: 5px;
+    margin-top: 2px;
+    margin-bottom: 3px;
+    cursor: grab;
+    background-color: #252d38;
+    border: 2px black dotted;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+}
+
+li:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    background: #500000;
+    text-decoration: none;
+}
+
+li:before {
+    content: "☰"; /*≡☰ font-size: 23px;*/
+    opacity: 0.8;    
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 15px;
+    width: var(--icon-space);
+}
+
+.scruffed {
+    pointer-events: none;
+    /*  This took me 2 days to actually find the magic google-terms to uncover.
+        The laugh that resulted from the image of scruffing a variable like an unruly
+        kitten was worth the name. In a professional environ, this would not make it
+        to the final distribution of the code.
+
+        Further testing reveals this does not, in fact, completely resolve the error.
+        It does make it ten times harder to trigger.
+    */
+}
