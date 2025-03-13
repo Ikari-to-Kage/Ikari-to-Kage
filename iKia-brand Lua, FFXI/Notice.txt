@@ -1,0 +1,5 @@
+All files in this little folder are *live* files as of the date of upload. They may contain small bugs as they are constantly in-progress as gear and systems update.
+
+They are all pieces that interface with the Ashita or Windower 3rd party program for Final Fantasy XI: Online, an MMORPG I've sunk twenty years into at this point in my life.
+
+The gear examples may not be the best for each class, but the code surrounding them should be sound.
