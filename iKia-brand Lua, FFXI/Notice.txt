@@ -1,5 +1,12 @@
-All files in this little folder are *live* files as of the date of upload. They may contain small bugs as they are constantly in-progress as gear and systems update.
+All files in this little folder are *live* files as of the date of upload. 
+They may contain small bugs as they are constantly in-progress as gear and systems update.
 
-They are all pieces that interface with the Ashita or Windower 3rd party program for Final Fantasy XI: Online, an MMORPG I've sunk twenty years into at this point in my life.
+They are all pieces that interface with the Ashita or Windower 3rd party program for Final Fantasy XI: Online,
+an MMORPG I've sunk twenty years into at this point in my life.
 
 The gear examples may not be the best for each class, but the code surrounding them should be sound.
+
+Any HUD-labeled code sections use a modified version of the images.lua file available in the base Windower,
+paired with custom frames I built in GIMP. 'Images-light.lua' is effectively the same file, only with the
+drag-listener functions disabled. (I did not, personally, modify my copy, as such I do not distribute this
+file to others to use lightly-- I can not guarantee it, as it is not my work.)
