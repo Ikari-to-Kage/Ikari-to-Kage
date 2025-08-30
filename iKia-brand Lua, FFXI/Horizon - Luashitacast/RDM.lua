@@ -3,24 +3,23 @@
 -----------------------------------------------------------
 local Idle = {
 	-- Keybind: #7
-	[1] = 'Frontline',		-- Defense/Movement/Regenerations.
-	[2] = 'Backline',		-- MP.idle
-	[3] = 'MaxDT',			-- Max.DT Hybridized. Replace .PDT and .MDT.
-	--[4] = 'Sync',			-- Sync gear.
+	[1] = 'Standard',		-- MP.idle, Regen, Movement.
+	[2] = 'MaxDT',			-- Max.DT Hybridized. Replaces .PDT and .MDT.
+	--[3] = 'Sync',			-- Sync gear.
 	
 }
 local Melee = {
 	-- Keybind: #8
-	[1] = 'Standard',		-- Haste > Acc.
-	[2] = 'Accuracy',		-- Acc. > Haste
+	[1] = 'Standard',		-- Att./Haste > Acc.
+	[2] = 'Accuracy',		-- Acc./Att. > Haste
 	[3] = 'MaxDT',			-- Stop. Trying. To. Eat. Me.
 	--[4] = 'Sync',			-- Sync gear.
 }
 local Weapon = {
 	-- Keybind: #9
-	[1] = 'Swords',			-- Gimme your face.
-	[2] = 'Daggers',		-- Gimme your MP.
-	[3] = 'Clubs',			-- Gimme your bones.
+	[1] = 'Daggers',		-- Gimme your MP.
+	[2] = 'Swords',			-- Gimme your face.
+	[3] = 'Mage',			-- Gimme your bones-- and leave mine alone.
 	--[4] = 'Sync',			-- Gimme your face.
 }
 local Elemental = {
@@ -29,7 +28,7 @@ local Elemental = {
 }
 local Enfeebles = {
 	-- Keybind: #1
-	[1] = 'Potency',	[2] = 'Accuracy',
+	[1] = 'Potency',		[2] = 'Accuracy',
 }
 local OutsideNation = {
 	-- Keybind: #2
@@ -37,10 +36,13 @@ local OutsideNation = {
 }
 local ConvertMP = {
 	-- Keybind: #3
-	[1] = 580,	-- Melee
-	[2] = 710, 	-- Mage
-	[3] = 999,	-- Off.
-	-- Set this to 'base idle' MP, adapt for multiple subjobs.
+	[1] = 750,	-- /Melee idle. NO FOOD.
+	[2] = 825,	-- /Mage idle. NO FOOD.
+	[3] = 1000,	-- Off.
+	-- Set this to just under 'Converted MP', so you don't freak out your idle code.
+	-- 	783~ Convert/NIN. MP 1/8. NO FOOD.
+	--  861~ Convert/WHM. MP 1/8. NO FOOD.
+	
 }
 local TPLock = {
 	-- Keybind: #6
@@ -53,7 +55,7 @@ local Settings = {
 	Weapon = 1,
 	Elemental = 1,
 	Enfeebles = 1,
-	OutsideNation = 1,
+	OutsideNation = 1,	-- Figure out how to toggle this by when you zone in.
 	ConvertMP = 1,
 	TPLock = 1,
 }
@@ -71,15 +73,20 @@ local EnhancingEffect = T{ 'Phalanx', 'Phalanx II', 'Ice Spikes', 'Shock Spikes'
 	'Baraero', 'Baraera', 'Barblizzard', 'Barblizzara', 'Barfire', 'Barfira', 'Barstone', 'Barstona', 'Barthunder', 'Barthundara', 'Barwater', 'Barwatera',
 	'Barsleep', 'Barsleepra', 'Barpoison', 'Barpoisonra', 'Barparalyze', 'Barparalyzra', 'Barblind', 'Barblindra', 'Barsilence', 'Barsilencera', 'Barpetrify', 'Barvirus',
     'Enaero', 'Enblizzard', 'Enfire', 'Enstone', 'Enthunder', 'Enwater',};
+local CurePotency = T{ 'Cure', 'Cure II', 'Cure III', 'Cure IV', 'Curaga', 'Curaga II' };
 
---{(Weaponskill group maps, make sure everything is in the right place.>--
-local wsSTR = T{"Fast Blade","Flat Blade","Circle Blade","Vorpal Blade",
-	"Shadowstitch","Skullbreaker","True Strike","Heavy Swing",}
-local wsDEX = T{"Wasp Sting","Viper Bite","Evisceration",}	
-local wsMND = T{"Savage Blade","Death Blossom","Judgement",}	
-local wsMAG = T{"Burning Blade","Red Lotus Blade","Shining Blade","Seraph Blade",
-		"Gust Slash","Cyclone","Energy Drain","Energy Steal","Shining Strike","Seraph Strike",
-		"Starburst","Earth Crusher","Rock Crusher",}
+--{(Weaponskill group maps, make sure everything is in the right place.>--	Yes, it's weird. HORIZON IS WIERD.
+local wsSTR = T{"Fast Blade","Flat Blade","Circle Blade","Skullbreaker","True Strike",
+		"Judgement","Shining Blade","Seraph Blade","Shining Strike","Seraph Strike","Savage Blade","Death Blossom",
+		"Heavy Swing","Earth Crusher","Rock Crusher","Burning Blade","Red Lotus Blade",}
+local wsDEX = T{"Wasp Sting","Viper Bite","Gust Slash","Evisceration","Vorpal Blade",}
+local wsMND = T{"Energy Drain","Energy Steal","Shadowstitch",}
+local wsMAG = T{"Cyclone","Starburst",}
+
+--{(Subjob groupings.>--	For figuring out MP idles.
+local MageSubjobs 	= T{ 'WHM','BLM','SMN', };	-- MP Heavy.
+local HybridSubjobs	= T{ 'PLD','DRK','BLU', };	-- MP+, melee-centric.
+local MeleeSubjobs 	= T{ 'NIN','WAR','THF','SAM','DRG','BST', };	-- Someone forgot to tell me 'no'.
 
 local profile = {};
 -----------------------
@@ -87,172 +94,171 @@ local profile = {};
 -----------------------
 local sets = {
 --{(Idle Sets>--
-    Idle_Frontline = {													range="",						ammo="Phtm. Tathlum",
-		head="",						neck="Justice Badge",			ear1="Geist Earring",			ear2="Morion Earring",
-		body="Royal Cloak",				hands="Dst. Mittens +1",		ring1="Sattva Ring",			ring2="Vilma's Ring",
-		back="Cheviot Cape",			waist="Penitent's Rope",		legs="Dst. Subligar +1",		feet="Warlock's Boots"
-    },	-- Refresh/Regen > DT. Sprinkle MP as you find it.
-    Idle_Backline = {													range="",						ammo="Phtm. Tathlum",
-		head=none,						neck="Justice Badge",			ear1="Geist Earring",			ear2="Morion Earring",
-		body="Royal Cloak",				hands="Duelist's Gloves",		ring1="Sattva Ring",			ring2="Vilma's Ring",
-		back="Cheviot Cape",			waist="Penitent's Rope",		legs="Savage Loincloth",		feet="Warlock's Boots"
-    },	-- Refresh/MP > DT. Max MP where functionally allowed/sane.
-	Idle_MaxDT = {														range="",						ammo="Phtm. Tathlum",
-        head="Darksteel Cap +1",    	neck="Justice Badge",    		ear1="Geist Earring",    		ear2="Morion Earring",
-        body="Dst. Harness +1",			hands="Dst. Mittens +1",		ring1="Sattva Ring",    		ring2="Sapphire Ring",
-        back="Cheviot Cape",    		waist="Warrior's Belt +1",		legs="Dst. Subligar +1",    	feet="Warlock's Boots"
-    },	-- See XIAH set. DT > All, placeholder MND+ for Magic Defense.
+    Idle_Standard = {													range="",						ammo="Hedgehog Bomb",
+		head="Duelist's Chapeau",		neck="Jeweled Collar",			ear1="Loquac. Earring",			ear2="Ethereal Earring",
+		body="Duelist's Tabard",		hands="Duelist's Gloves",		ring1="Vilma's Ring",			ring2="Sattva Ring",
+		back="Cheviot Cape",			waist="Hierarch Belt",			legs="Blood Cuisses",			feet="Blood Greaves"
+    },	
+	Idle_MaxDT = {														range="",						ammo="Hedgehog Bomb",
+        head="Duelist's Chapeau",    	neck="Jeweled Collar",	   		ear1="Merman's Earring",   		ear2="Ethereal Earring",
+        body="Dst. Harness +1",			hands="Dst. Mittens +1",		ring1="Vilma's Ring",    		ring2="Sattva Ring",
+        back="Cheviot Cape",    		waist="Duelist's Belt",			legs="Blood Cuisses",  		  	feet="Blood Greaves"
+    },	-- See XIAH set. DT > All, placeholder MND+ for Magic Defense. Duelist's Chapeau because Yes.
 	--{(Idle to be altered or toggled as needed for BCNMs.>--
-    Idle_Sync = {														range="",						ammo="Morion Tathlum",
-		head="Silver Hairpin",			neck="Justice Badge",			ear1="Geist Earring",			ear2="Morion Earring",
-		body="Brigandine",				hands="Savage Gauntlets",		ring1="Vilma's Ring",			ring2="Ether Ring",
+    Idle_Sync = {														range="",						ammo="Happy Egg",
+		head="Silver Hairpin",			neck="Stone Gorget",			ear1="Geist Earring",			ear2="Morion Earring",
+		body="Brigandine",				hands="Savage Gauntlets",		ring1="Vilma's Ring",			ring2="Sattva Ring",
 		back="White Cape +1",			waist="Mrc.Cpt. Belt",			legs="Savage Loincloth",		feet="Savage Gaiters"
     },	-- ^ Currently 50cap.
 
 --{(Melee Sets>--
 	-- Where Acc, Attack, or Haste can not be found, place DT pieces.
-	Melee_Standard = {													range="",						ammo="Phtm. Tathlum",
-		head="Walkure Mask",			neck="Peacock Amulet",			ear1="Beetle Earring +1",		ear2="Beetle Earring +1",
+	Melee_Standard = {													range="",						ammo="Hedgehog Bomb",
+		head="Nashira Turban",			neck="Peacock Amulet",			ear1="Brutal Earring",			ear2="Ethereal Earring",
+		body="Nashira Manteel",			hands="Dusk Gloves",			ring1="Woodsman Ring",			ring2="Woodsman Ring",
+		back="Amemet Mantle +1",		waist="Swift Belt",				legs="Nashira Seraweels",		feet="Dusk Ledelsens"
+	},	-- Att+, Haste+.
+	Melee_Accuracy = {													range="",						ammo="Happy Egg",
+        head="Optical Hat",				neck="Peacock Amulet",			ear1="Brutal Earring",			ear2="Ethereal Earring",
 		body="Scorpion Harness",		hands="Dusk Gloves",			ring1="Woodsman Ring",			ring2="Woodsman Ring",
-		back="Amemet Mantle",			waist="Quick Belt",				legs="Dst. Subligar +1",		feet="Dusk Ledelsens"
-	},	-- Att+, Haste+. (Assault Jerkin?)
-	Melee_Accuracy = {													range="",						ammo="",
-        head="Walkure Mask",			neck="Peacock Amulet",			ear1="Beetle Earring +1",		ear2="Beetle Earring +1",
-		body="Scorpion Harness",		hands="Dusk Gloves",			ring1="Woodsman Ring",			ring2="Woodsman Ring",
-		back="Amemet Mantle",			waist="Life Belt",				legs="Dst. Subligar +1",		feet="Dusk Ledelsens"
+		back="Amemet Mantle +1",		waist="Life Belt",				legs="Duelist's Tights",		feet="Dusk Ledelsens"
 	},	-- Acc+, Haste+. 
-	Melee_MaxDT = {														range="",						ammo="",
-        head="Darksteel Cap +1",		neck="Peacock Amulet",			ear1="Beetle Earring +1",		ear2="Beetle Earring +1",
-		body="Dst. Harness +1",			hands="Dusk Gloves",			ring1="Sattva Ring",			ring2="Woodsman Ring",
-		back="Cheviot Cape",			waist="Quick Belt",				legs="Dst. Subligar +1",		feet="Dusk Ledelsens"
+	Melee_MaxDT = {														range="",						ammo="Happy Egg",
+        head="Darksteel Cap +1",		neck="Jeweled Collar",			ear1="Merman's Earring",		ear2="Ethereal Earring",
+		body="Dst. Harness +1",			hands="Dusk Gloves",			ring1="Woodsman Ring",			ring2="Sattva Ring",
+		back="Cheviot Cape",			waist="Swift Belt",				legs="Dst. Subligar +1",		feet="Dusk Ledelsens"
 	},	-- Mirror the MaxDT Idle, allow for marginal amounts of Haste. (Hands/Shoes/Belt, as Hands/Shoes are high defense.)
 	--{(Idle to be altered or toggled as needed for BCNMs.>--
-	Melee_Sync = {														range="",						ammo="Morion Tathlum",
+	Melee_Sync = {														range="",						ammo="Happy Egg",
 		head="Walkure Mask",			neck="Peacock Amulet",			ear1="Beetle Earring +1",		ear2="Beetle Earring +1",
 		body="Brigandine",				hands="Battle Gloves",			ring1="Woodsman Ring",			ring2="Woodsman Ring",
-		back="White Cape +1",			waist="Quick Belt",				legs="Republic Cuisses",		feet="Republic Greaves"
+		back="White Cape +1",			waist="Swift Belt",				legs="War Hose",				feet="Bounding Boots"
 	},	-- ^ Currently 50cap.
 
 --{(Weapons for melee purposes.>--
-	Weapon_Swords 	= {main="Joyeuse",	sub="Genbu's Shield",},
-		Weapon_Swords_DW 	= {main="Martial Anelace",	sub="Joyeuse",},
-	Weapon_Daggers 	= {main="Dagger of Trials",	sub="Genbu's Shield",},	-- Blau?
-		Weapon_Daggers_DW 	= {main="Dagger of Trials",		sub="Joyeuse",},
-	Weapon_Clubs 	= {main="Solid Wand",	sub="Genbu's Shield",},
-		Weapon_Clubs_DW 	= {main="Solid Wand",		sub="Yew Wand +1",},
+	Weapon_Daggers 	= {main="Martial Knife",	sub="Genbu's Shield",},		-- Blau once funds allow.
+		Weapon_Daggers_DW 	= {main="Martial Knife",		sub="Joyeuse",},
+	Weapon_Swords 	= {main="Joyeuse",			sub="Genbu's Shield",},
+		Weapon_Swords_DW 	= {main="Martial Anelace",		sub="Joyeuse",},
+	Weapon_Mage 	= {main="Earth Staff",		sub="",},
+		Weapon_Mage_DW 		= {main="Earth Staff",			sub="",},
 	-- Sync Nonsense.
 	Weapon_Sync 	= {main="Fencing Degen",	sub="Viking Shield",},
 		Weapon_Sync_DW 	= {main="Buzzard Tuck",		sub="Hornetneedle",},
 --{(Isolated Weapons for mage purposes.>--
-	Weapon_Mage		= {main="Earth Staff",		sub="",							ammo="Phtm. Tathlum",},
 	Weapon_Rest		= {main="Dark Staff",		sub="",							ammo="Phtm. Tathlum",},
-	Weapon_WandINT	= {main="Solid Wand",		sub="Tortoise Shield",			ammo="Phtm. Tathlum",},
-	Weapon_WandMND	= {main="Solid Wand",		sub="Tortoise Shield",			ammo="Phtm. Tathlum",},
+	Weapon_WandINT	= {main="Mythic Wand +1",	sub="Tortoise Shield",			ammo="Phtm. Tathlum",},	-- +3 Shield. Astral??
+	Weapon_WandMND	= {main="Mythic Wand +1",	sub="Tortoise Shield",			ammo="Phtm. Tathlum",},	-- +3 Shield.
 	
 --{(Weaponskill Sets>--
     Strength = {														range="",						ammo="",
-        head="Mrc.Cpt. Headgear",    	neck="Spike Necklace",    		ear1="Beetle Earring +1",		ear2="Beetle Earring +1",
-        body="Savage Separates",    	hands="Bastokan Mittens",   	ring1="",   					ring2="",
-        back="Amemet Mantle",   		waist="Sword Belt",  			legs="",    					feet="Savage Gaiters"
-    },	-- Misc.
+        head="Ogre Mask",		    	neck="Spike Necklace",    		ear1="Merman's Earring",		ear2="Ethereal Earring",
+        body="Assault Jerkin",	    	hands="Bastokan Mittens",   	ring1="Ruby Ring",   			ring2="Spinel Ring",
+        back="Amemet Mantle +1",   		waist="Sword Belt",  			legs="Bastokan Subligar",    	feet="Rutter Sabatons"
+    },	-- Savage Blade, etc. Vorpal potentially?
     Dexterity = {														range="",						ammo="",
-        head="Mrc.Cpt. Headgear",    	neck="Spike Necklace",    		ear1="Beetle Earring +1",		ear2="Beetle Earring +1",
-        body="Brigandine",    			hands="Bastokan Mittens",   	ring1="Balance Ring",   		ring2="Balance Ring",
-        back="Amemet Mantle",    		waist="Sword Belt",   			legs="",    					feet="Bounding Boots"
-    },	-- Vorpal/Evis.
+        head="Optical Hat",    			neck="Peacock Amulet",    		ear1="Brutal Earring",			ear2="Ethereal Earring",
+        body="Assault Jerkin",    		hands="Warlock's Gloves",   	ring1="Ruby Ring",   			ring2="Spinel Ring",
+        back="Amemet Mantle +1",    	waist="Sword Belt",   			legs="Duelist's Tights",		feet="Rutter Sabatons"
+    },	-- Vorpal/Evis. CHR is bonus.
     Mind = {															range="",						ammo="",
-        head="Walkure Mask",			neck="Justice Badge",    		ear1="Beetle Earring +1",		ear2="Beetle Earring +1",
-        body="",    					hands="Savage Gauntlets",		ring1="Sapphire Ring",   		ring2="Sapphire Ring",
-        back="Rainbow Cape",    		waist="Mrc.Cpt. Belt",   		legs="Warlock's Tights",    	feet="Warlock's Boots"
-    },	-- Savage Blade.
-    Magic = {															range="",						ammo="Morion Tathlum",
-        head="Warlock's Chapeau",  		neck="Justice Badge",    		ear1="Morion Earring",			ear2="Morion Earring",
+        head="Mahatma Hat",				neck="Justice Badge",    		ear1="Geist Earring",			ear2="Moldavite Earring",
+        body="Errant Hpl.",    			hands="Savage Gauntlets",		ring1="Sapphire Ring",   		ring2="Sapphire Ring",
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Mahatma Pigaches"
+    },	-- Energy Steal.
+    Magic = {															range="",						ammo="Phtm. Tathlum",
+        head="Warlock's Chapeau",  		neck="Justice Badge",    		ear1="Morion Earring",			ear2="Moldavite Earring",
         body="",    					hands="Duelist's Gloves",		ring1="Diamond Ring",  			ring2="Diamond Ring",
-        back="Rainbow Cape", 			waist="Mrc.Cpt. Belt",   		legs="",    					feet="Warlock's Boots"
+        back="Rainbow Cape", 			waist="Duelist's Belt",   		legs="Nashira Seraweels",    	feet="Duelist's Boots"
     },	-- Cyclone.
 
 --{(Precast Sets>--
     FastCast = {														range="",						ammo="",
-        head="Warlock's Chapeau", 		neck="",    					ear1="",    					ear2="",
-        body="Duelist's Tabard",		hands="",    					ring1="",    					ring2="",
+        head="Warlock's Chapeau", 		neck="",    					ear1="Loquac. Earring",   		ear2="",
+        body="Duelist's Tabard",		hands="",    					ring1="",						ring2="",
         back="",    					waist="",    					legs="",    					feet=""
     },
-	Haste = {															range="",						ammo="",
-        head="",    					neck="",    					ear1="",    					ear2="",
-        body="",						hands="Dusk Gloves", 			ring1="",    					ring2="",
-        back="",    					waist="Quick Belt",    			legs="",    					feet="Dusk Ledelsens"
-    },
+	Recast = {															range="",						ammo="",
+        head="Nashira Turban",    		neck="",    					ear1="Loquac. Earring",    		ear2="",
+        body="Nashira Manteel",			hands="Dusk Gloves", 			ring1="",						ring2="",
+        back="",    					waist="Swift Belt",    			legs="Nashira Seraweels",    	feet="Dusk Ledelsens"
+    },	-- 10% FC = 2.5% recast. Account Accordingly. [Recast = RC * (RC-FC) * (RC-Haste)] Nash for Recast.
 
 --{(MP Conservation Sets>--
-	Convert = {															range="",						ammo="Phtm. Tathlum",
-	    head="Warlock's Chapeau", 		neck="",    					ear1="Geist Earring",    		ear2="Morion Earring",
-        body="Duelist's Tabard",		hands="Duelist's Gloves",    	ring1="Astral Ring",			ring2="Ether Ring",
-        back="Rainbow Cape",    		waist="",    					legs="Savage Loincloth",   		feet="Warlock's Boots"
+	Convert = {															range="",						ammo="Hedgehog Bomb",
+	    head="Duelist's Chapeau", 		neck="",    					ear1="Loquac. Earring",    		ear2="Morion Earring",
+        body="Duelist's Tabard",		hands="Duelist's Gloves",    	ring1="Vilma's Ring",			ring2="Astral Ring",
+        back="Rainbow Cape",    		waist="Hierarch Belt", 			legs="Blood Cuisses",   		feet="Mahatma Pigaches"
 	-- A set that focuses on matching MP to your HP, so you get as much MP as possible on return.
 	-- THIS SET WILL BE USED AS A LOCK SET FOR SEVERAL CASTS, ADAPT ACCORDINGLY.
 	},
-	hMP = {																range="",						ammo="",
-        head="Warlock's Chapeau",		neck="",    					ear1="",    					ear2="",
-        body="Errant Hpl.",				hands="",    					ring1="",    					ring2="",
-        back="",    					waist="",    					legs="",    					feet=""	
-	-- tl,dr; dark staff and mp bits.
+	hMP = {																range="",						ammo="Hedgehog Bomb",
+		head="Duelist's Chapeau",		neck="",						ear1="Loquac. Earring",			ear2="Ethereal Earring",
+		body="Errant Hpl.",				hands="Duelist's Gloves",		ring1="Vilma's Ring",			ring2="Astral Ring",
+		back="Rainbow Cape",			waist="Duelist's Belt",			legs="Blood Cuisses",			feet="Mahatma Pigaches"
+	-- tl,dr; dark staff and hMP bits. MP where you cannot put the other.
 	},
 
 --{(Support Skill Sets>--
     Enhancing = {
-        head="Darksteel Cap +1",  		neck="Enhancing Torque",   		ear1="Geist Earring",   		ear2="",
+        head="Nashira Turban",  		neck="Enhancing Torque",   		ear1="Geist Earring",   		ear2="",
         body="Warlock's Tabard",    	hands="Duelist's Gloves",   	ring1="Sapphire Ring",   		ring2="Sapphire Ring",
-        back="Rainbow Cape",    		waist="",   					legs="Warlock's Tights",    	feet="Warlock's Boots"
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Warlock's Tights",    	feet="Mahatma Pigaches"
     },
 	Stoneskin = {	-- Isolated set including specific SIRD pieces to prevent interuption of the cast.	
-        head="Darksteel Cap +1",		neck="Enhancing Torque",   		ear1="Geist Earring",    		ear2="",
+        head="Nashira Turban",			neck="Stone Gorget", 	  		ear1="Geist Earring",    		ear2="",
         body="Warlock's Tabard",    	hands="Duelist's Gloves",   	ring1="Sapphire Ring",   		ring2="Sapphire Ring",
-        back="Rainbow Cape",   			waist="",   					legs="Warlock's Tights",    	feet="Warlock's Boots"
+        back="Rainbow Cape",   			waist="Penitent's Rope",   		legs="Warlock's Tights",    	feet="Mahatma Pigaches"
 	},	
-	Healing = {
-        head="Pumpkin Head",    		neck="Healing Torque",    		ear1="Geist Earring", 			ear2="",
-        body="Duelist's Tabard",		hands="Wise Gloves",   			ring1="Sapphire Ring",   		ring2="Sapphire Ring",
-        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Warlock's Tights",    	feet="Warlock's Boots"
-    },
 
 --{(Control Skill Sets>--
 	Enfeeb_MND_Potency = {												range="",						ammo="",
-        head="",    					neck="Enfeebling Torque",  		ear1="Geist Earring",   		ear2="",
+        head="Duelist's Chapeau",    	neck="Enfeebling Torque",  		ear1="Geist Earring",   		ear2="",
         body="Warlock's Tabard",    	hands="Wise Gloves",   			ring1="Sapphire Ring",   		ring2="Sapphire Ring",
-        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",	    	feet="Warlock's Boots"
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",	    	feet="Mahatma Pigaches"
 	},
 	Enfeeb_MND_Accuracy = {												range="",						ammo="",
-        head="",    					neck="Enfeebling Torque",    	ear1="Geist Earring",    		ear2="",
+        head="Duelist's Chapeau",		neck="Enfeebling Torque",    	ear1="Geist Earring",    		ear2="",
         body="Warlock's Tabard",    	hands="Wise Gloves",   			ring1="Sapphire Ring",   		ring2="Sapphire Ring",
-        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Warlock's Boots"
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Nashira Seraweels",    	feet="Mahatma Pigaches"
 	},
 	Enfeeb_INT_Potency = {												range="",						ammo="Phtm. Tathlum",
-        head="Warlock's Chapeau",    	neck="Enfeebling Torque",		ear1="Morion Earring",			ear2="Morion Earring",
+        head="Duelist's Chapeau",    	neck="Enfeebling Torque",		ear1="Morion Earring",			ear2="Morion Earring",
         body="Warlock's Tabard",    	hands="Duelist's Gloves",   	ring1="Diamond Ring",  			ring2="Diamond Ring",
         back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Warlock's Boots"
 	},
 	Enfeeb_INT_Accuracy = {												range="",						ammo="Phtm. Tathlum",
-        head="Warlock's Chapeau",    	neck="Enfeebling Torque",		ear1="Morion Earring",			ear2="Morion Earring",
+        head="Duelist's Chapeau",    	neck="Enfeebling Torque",		ear1="Morion Earring",			ear2="Morion Earring",
         body="Warlock's Tabard",    	hands="Duelist's Gloves",   	ring1="Diamond Ring",  			ring2="Diamond Ring",
-        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Warlock's Boots"
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Nashira Seraweels",    	feet="Warlock's Boots"
 	},
 	
---{(Light/Dark>--	
+--{(Light/Dark>--
+	Healing = {															range="",						ammo="",
+        head="Mahatma Hat",	    		neck="Justice Badge",    		ear1="Geist Earring", 			ear2="",
+        body="Errant Hpl.",				hands="Wise Gloves",   			ring1="Sapphire Ring",   		ring2="Sapphire Ring",
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Mahatma Pigaches"
+    },	-- ^ Cure Power. Skill is not as effective as Raw MND. Account for Emn-. (A lot of Emn-.)
+	HealingSkill = {													range="",						ammo="",
+        head="",    					neck="Healing Torque", 			ear1="",    					ear2="",
+        body="Duelist's Tabard",		hands="",    					ring1="",    					ring2="",
+        back="",    					waist="",    					legs="Warlock's Tights",		feet=""
+    },	-- ^ Cursna set. Skill+, Skill+, and more Skill+. Haste/Recast where you can't.	(Current Value: +27 Skill.)
 	Divine = {															range="",						ammo="",
         head="",    					neck="",    					ear1="",    					ear2="",
         body="Errant Hpl.",				hands="",    					ring1="",    					ring2="",
-        back="Rainbow Cape",    		waist="",    					legs="Errant Slops",    		feet=""
+        back="Rainbow Cape",    		waist="",    					legs="Nashira Seraweels",    	feet=""
 	},
 	Dark = {															range="",						ammo="Phtm. Tathlum",
         head="Warlock's Chapeau",    	neck="Philomath Stole",			ear1="Morion Earring",			ear2="Morion Earring",
-        body="",    					hands="Duelist's Gloves",   	ring1="Diamond Ring",  			ring2="Diamond Ring",
-        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",   			feet="Warlock's Boots"
+        body="Nashira Manteel",    		hands="Duelist's Gloves",   	ring1="Diamond Ring",  			ring2="Diamond Ring",
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Nashira Seraweels",   	feet="Warlock's Boots"
 	},
 	Stun = {															range="",						ammo="",
         head="",    					neck="",    					ear1="",    					ear2="",
-        body="",						hands="",    					ring1="",    					ring2="",
-        back="",    					waist="",    					legs="",    					feet=""
-	},
+        body="Nashira Manteel",			hands="",    					ring1="",    					ring2="",
+        back="",    					waist="",    					legs="Nashira Seraweels",    	feet=""
+	},	-- ^ M.Acc+/Dark Skill+. INT where those do not exist. Recast where you can.
 	
 --{(Impersonating a BLM>--
 	MaxINT = {															range="",						ammo="Phtm. Tathlum",
@@ -261,24 +267,24 @@ local sets = {
         back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Warlock's Boots"
 	},
 	Elemental_Potency = {												range="",						ammo="Phtm. Tathlum",
-        head="Warlock's Chapeau",    	neck="Philomath Stole",			ear1="Morion Earring",			ear2="Morion Earring",
+        head="Warlock's Chapeau",    	neck="Philomath Stole",			ear1="Morion Earring",			ear2="Moldavite Earring",
         body="Errant Hpl.",    			hands="Duelist's Gloves",   	ring1="Diamond Ring",  			ring2="Diamond Ring",
-        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Warlock's Boots"
+        back="Rainbow Cape",    		waist="Penitent's Rope",   		legs="Errant Slops",    		feet="Duelist's Boots"
 	},
 	Elemental_Accuracy = {												range="",						ammo="Phtm. Tathlum",
         head="Warlock's Chapeau",    	neck="Philomath Stole",			ear1="Morion Earring",			ear2="Morion Earring",
-        body="Errant Hpl.",				hands="Duelist's Gloves",  		ring1="Diamond Ring",  			ring2="Diamond Ring",
-        back="Rainbow Cape",    		waist="Penitent's Rope",    	legs="Errant Slops",    		feet="Warlock's Boots"
+        body="Nashira Manteel",			hands="Duelist's Gloves",  		ring1="Diamond Ring",  			ring2="Diamond Ring",
+        back="Rainbow Cape",    		waist="Penitent's Rope",    	legs="Duelist's Tights",   		feet="Duelist's Boots"
 	},
 
 --{(Miscellaneous Useful Sets.>--
 	Hate = {															range="",						ammo="",
         head="Pumpkin Head II",    		neck="",    					ear1="",    					ear2="",
-        body="",						hands="",    					ring1="",    					ring2="",
+        body="",						hands="",    					ring1="",    					ring2="Sattva Ring",
         back="",    					waist="",    					legs="",    					feet=""
 	},
 	DW = {
-		waist="Sarashi",
+		--waist="Sarashi",	-- Disabled for the moment, haste belt stronger.
 		--insert various DW+ things here.
 	},
 	StealthCast = {
@@ -376,7 +382,7 @@ function ObiCheck(spell)
     
     return weight;
 end
-	
+
 profile.OnLoad = function()
     gSettings.AllowAddSet = false;	-- Put your own in it, do not risk a string fail.	
 	AshitaCore:GetChatManager():QueueCommand(-1, '/bind Numpad7 /lac fwd Idle_Cycle');
@@ -474,13 +480,27 @@ end
 profile.HandleDefault = function()
 	local player = gData.GetPlayer();
 	
+	-- Testing hold. Retrofit this for making 50/40/20 sets. (50 is the big one. 20 is basically fishing gear. 40 is important for DRG.)
+	-- tl;dr, make it ask what level, then assign that as a post-script for everything. 
+	-- Use an over-lay set for tossing on the rings/etc, so it gets the big gear, but then tosses on what is needed for lower content.
+	-- 	[if level ~= 75, equip Gear_(setting call).]
+	--    local myLevel = AshitaCore:GetMemoryManager():GetPlayer():GetMainJobLevel();
+    --if (myLevel ~= Settings.CurrentLevel) then
+	--    gFunc.EvaluateLevels(profile.Sets, myLevel);
+    --    Settings.CurrentLevel = myLevel;
+    --end
+	
 	if (player.Status == 'Engaged') then
-		gFunc.EquipSet('Melee_' .. Melee[Settings.Melee]);
 		gFunc.EquipSet('Weapon_' .. Weapon[Settings.Weapon]);
 		if (player.SubJob == 'DNC') or (player.SubJob == 'NIN') then
 			gFunc.EquipSet('Weapon_' .. Weapon[Settings.Weapon] .. '_DW');
 			gFunc.EquipSet(sets.DW);
 		end
+		if (player.MP >= ConvertMP[Settings.ConvertMP]) then
+			gFunc.EquipSet(sets.Convert);
+		else
+			gFunc.EquipSet('Melee_' .. Melee[Settings.Melee])
+		end	
 	elseif (player.Status =='Resting') then
 		gFunc.EquipSet(sets.hMP);
 		if (player.TP <= TPLock[Settings.TPLock]) then
@@ -489,15 +509,12 @@ profile.HandleDefault = function()
 	else
 		if (player.MP >= ConvertMP[Settings.ConvertMP]) then
 			gFunc.EquipSet(sets.Convert);
-		elseif ((Settings.Idle == 1) or (Settings.Idle == 4)) then --~= 2)) then --
+		else
 			gFunc.EquipSet('Idle_' .. Idle[Settings.Idle]);
 			gFunc.EquipSet('Weapon_' .. Weapon[Settings.Weapon]);
 			if (player.SubJob == 'DNC') or (player.SubJob == 'NIN') then
 				gFunc.EquipSet('Weapon_' .. Weapon[Settings.Weapon] .. '_DW');
 			end
-		else
-			gFunc.EquipSet('Idle_' .. Idle[Settings.Idle]);
-			gFunc.EquipSet(sets.Weapon_Mage);
 		end
 	end
 end
@@ -519,9 +536,10 @@ profile.HandlePrecast = function()
 	local player = gData.GetPlayer();
 	
 	if (player.MP >= ConvertMP[Settings.ConvertMP]) then
-	return
-	else	-- Haste > Overlay Fastcast.
-		gFunc.EquipSet(sets.Haste);
+		return	-- If MP is overthreshold, keep that MP by not messing with the gear. Does not involve weapons.
+	else
+		gFunc.EquipSet(sets.Convert);	-- MP conservation attempts.
+		gFunc.EquipSet(sets.Recast);
 		gFunc.EquipSet(sets.FastCast);
 	end
 end
@@ -531,6 +549,13 @@ profile.HandleMidcast = function()
 	local player = gData.GetPlayer();
 	local environ = gData.GetEnvironment();
 
+-- Convert MP Conservation Check.
+	if (player.MP >= ConvertMP[Settings.ConvertMP]) then
+		if (player.TP <= TPLock[Settings.TPLock]) then
+			gFunc.Equip('main', ElementalStaff[action.Element]);
+		end
+		return	-- If MP is overthreshold, keep that MP by not messing with the gear.
+	end
 -- Debuff checking.
 	if (action.Skill == 'Enfeebling Magic') then
 	-- Accuracy > Potency, these do not use wands at all.
@@ -551,9 +576,8 @@ profile.HandleMidcast = function()
 			if (Settings.OutsideNation == 2) then
 				gFunc.EquipSet(sets.MstCstBracelets);
 			end
-        end
-		
-	-- Potency is important.
+        end		
+	-- Potency is important, wands may be used.
         if	(MndDebuffsPotency:contains(action.Name)) then
 			gFunc.EquipSet('Enfeeb_MND_' .. Enfeebles[Settings.Enfeebles]);
             if (Settings.Enfeebles == 2) then 
@@ -564,11 +588,11 @@ profile.HandleMidcast = function()
 					gFunc.EquipSet(sets.MstCstBracelets);
 				end
             else
-				if (Settings.Idle < 2) then -- Frontline.
+				if (Settings.Enfeebles == 1) then
 					if (player.TP <= TPLock[Settings.TPLock]) then
 						gFunc.EquipSet(sets.Weapon_WandMND);
 					end
-				else	-- Backline default.
+				else
 					if (player.TP <= TPLock[Settings.TPLock]) then
 						gFunc.Equip('main', ElementalStaff[action.Element]);
 					end
@@ -585,7 +609,7 @@ profile.HandleMidcast = function()
 					gFunc.EquipSet(sets.MstCstBracelets);
 				end
             else
-				if (Settings.Idle < 2) then -- Frontline.
+				if (Settings.Enfeebles == 1) then
 					if (player.TP <= TPLock[Settings.TPLock]) then
 						gFunc.EquipSet(sets.Weapon_WandINT);
 					end
@@ -596,9 +620,38 @@ profile.HandleMidcast = function()
 				end
 			end
 		end
-
+	end
+-- Enhancing. 
+	if (action.Skill == 'Enhancing Magic') then
+		if (action.Name == 'Stoneskin') or (action.Name == 'Aquaveil') or (action.Name == 'Blink') then
+			gFunc.EquipSet(sets.Stoneskin);	-- SIRD Non-interuption set with skill/MND.
+		elseif (action.Name == 'Sneak') or (action.Name == 'Invisible')then
+			gFunc.EquipSet(sets.StealthCast);
+		elseif (EnhancingEffect:contains(action.Name)) then
+			gFunc.EquipSet(sets.Enhancing);
+		elseif (action.Name =='Refresh') or (action.Name =='Haste') then
+			-- Dialation ring check goes here once/if relevant.
+			gFunc.EquipSet(sets.Recast);
+		else
+			gFunc.EquipSet(sets.Recast);
+		end
+	end
+-- Cures.
+	if (action.Skill == 'Healing Magic') then
+		if (CurePotency:contains(action.Name)) then
+			gFunc.EquipSet(sets.Healing);
+			if (player.TP <= TPLock[Settings.TPLock]) then
+				gFunc.Equip('main', ElementalStaff[action.Element]);
+			end
+		elseif (action.Name =='Cursna') then
+			gFunc.EquipSet(sets.Recast);		-- Anti-Recast-Suck.
+			gFunc.EquipSet(sets.HealingSkill);	-- Skill+ for better Doom'na.
+		else 
+			gFunc.EquipSet(sets.Recast);		-- Just make the recast not suck.
+		end
+	end	
 -- Nuke checking. 
-	elseif (action.Skill == 'Elemental Magic') then
+	if (action.Skill == 'Elemental Magic') then
 		if (ElementalDebuffs:contains(action.Name)) then	
 			gFunc.EquipSet(sets.MaxINT);
 			if (player.TP <= TPLock[Settings.TPLock]) then
@@ -616,23 +669,24 @@ profile.HandleMidcast = function()
 				gFunc.EquipSet(sets.UggPendant);
 			end
 		end
-
+	end
 -- Banish.
-	elseif (action.Skill == 'Divine Magic') then
+	if (action.Skill == 'Divine Magic') then
 		if (action.Name == 'Flash') then
+			gFunc.EquipSet(sets.Recast);
 			gFunc.EquipSet(sets.Hate);
-			gFunc.EquipSet(sets.Haste);		
 		else
 			gFunc.EquipSet(sets.Divine);
 		end
 		if (player.TP <= TPLock[Settings.TPLock]) then
 			gFunc.Equip('main', ElementalStaff[action.Element]);
 		end	
-
+	end
 -- Stun.
-	elseif (action.Skill == 'Dark Magic') then
+	if (action.Skill == 'Dark Magic') then
+		gFunc.EquipSet(sets.MaxINT);
 		if (action.Name == 'Stun') then
-			gFunc.EquipSet(sets.Haste);	-- Recast helper.
+			gFunc.EquipSet(sets.Recast);
 			gFunc.EquipSet(sets.Stun);	-- Stick dammit.
 		else
 			gFunc.EquipSet(sets.Dark);
@@ -640,51 +694,17 @@ profile.HandleMidcast = function()
 		if (player.TP <= TPLock[Settings.TPLock]) then
 			gFunc.Equip('main', ElementalStaff[action.Element]);
 		end	
-	
--- Cures.
-	elseif (action.Skill == 'Healing Magic') then
-		if (player.MP >= ConvertMP[Settings.ConvertMP]) then
-			if (player.TP <= TPLock[Settings.TPLock]) then
-				gFunc.Equip('main', ElementalStaff[action.Element]);
-			end
-		else
-			if string.match(action.Name, 'Cur') then
-				gFunc.EquipSet(sets.Healing);
-				if (player.TP <= TPLock[Settings.TPLock]) then
-					gFunc.Equip('main', ElementalStaff[action.Element]);
-				end
-			else
-				gFunc.EquipSet(sets.Haste);
-			end 
-		end
-
--- Enhancing. 
-	elseif (action.Skill == 'Enhancing Magic') then
-		if (action.Name == 'Stoneskin') or (action.Name == 'Aquaveil') or (action.Name == 'Blink') then
-			gFunc.EquipSet(sets.Stoneskin);	-- SIRD Non-interuption set with skill/MND.
-		elseif (action.Name == 'Sneak') or (action.Name == 'Invisible')then
-			gFunc.EquipSet(sets.StealthCast);
-		elseif (EnhancingEffect:contains(action.Name)) then
-			gFunc.EquipSet(sets.Enhancing);
-		elseif (action.Name =='Refresh') or (action.Name =='Haste') then
-			-- Dialation ring check goes here once/if relevant.
-			gFunc.EquipSet(sets.Haste);
-		else
-			gFunc.EquipSet(sets.Haste);
-		end
-	
-	elseif (action.Name == 'Utsusemi: Ichi' or action.Name == 'Utsusemi: Ni') then
-		gFunc.EquipSet(sets.Haste);
-		gFunc.EquipSet(sets.FastCast);
+	end	
+-- Shadows Overwrite, check out recast vs haste cause Horizon is weird.	
+	if (action.Name == 'Utsusemi: Ichi' or action.Name == 'Utsusemi: Ni') then
+		gFunc.EquipSet(sets.Recast);
 	end
-	
-	-- Catch all ObiCheck().
+-- Catch all ObiCheck().
 	if (action.Skill == 'Healing Magic') or (action.Skill == 'Elemental Magic') or (action.Skill == 'Enfeebling Magic') or (action.Skill == 'Dark Magic') then
 		if ObiCheck(action) >= 1 then
 			gFunc.Equip('waist', ElementalObi[action.Element]);
 		end
-	end
-	
+	end	
 end
 
 profile.HandleWeaponskill = function()
