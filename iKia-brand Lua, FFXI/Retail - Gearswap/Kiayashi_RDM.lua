@@ -1,8 +1,8 @@
---Last Edit; 6-20-24.
+--Last Edit; 8-8-25--
 --	*-----------*  --
 --	| Welcome <3|  --
 --	|  iKia.RDM |  --
---	|v.5.4.Fuck |  --
+--	|v.5.4.Baha |  --
 --	*-----------*  --
 ---------------------
 --{(HUD Set-up>------
@@ -56,9 +56,10 @@
 	IdleIndex = 1 
 	IdleArray = {"Movement","Defense",}
 	EngagedIndex = 1 
-	EngagedArray = {"Paper Shredder","Defense","Shield","WoC",}--"Enspell",}
+	EngagedArray = {"Paper Shredder","Defense","Shield",}--"Enspell",}
 	WeaponIndex = 1
-	WeaponArray = {"Crocea","Magic","Naegling","Maxentius","Tauret","Almace","Excalibur",}
+	WeaponArray = {"Crocea","Excalibur","Almace","Tauret",	--"Naegling",
+						"Maxentius","Magic",}
 
 	ElementalIndex = 1
 	ElementalArray = {"Freenuke", "Burst"}
@@ -237,7 +238,10 @@ function get_sets()
 			right_ring="Chirich Ring +1",
 			back={ name="Sucellos's Cape", augments={'Chance of successful block +5',}},}
 			-- Acc: 1084, DT: 39+10ForcedShield.
-
+			
+			sets.Engaged.Shield2 = set_combine(sets.Engaged.Shield,{neck = "Warder's Charm +1",waist="Carrier's Sash",})
+			-- Magic option.
+			
 		--	Subtle Blow DT; DT-47%, high M.Def, high Enspell, 33SB1 5SB2. 1177 Acc.
 			-- 	sets.Engaged.Enspell = {ammo="Sroda Tathlum",head="Umuthi Hat",body="Lethargy Sayon +2",hands="Aya. Manopolas +2",legs="Viti. Tights +3",feet="Nyame Sollerets",
 			--	neck="Bathy Choker +1",waist="Sailfi Belt +1",left_ear="Sherida Earring",right_ear="Digni. Earring",
@@ -251,56 +255,54 @@ function get_sets()
 			--	sets.Engaged.Enspell = {main="Crocea Mors",sub="Forfend +1",ammo="Sroda Tathlum",head="Umuthi Hat",body="Viti. Tabard +3",hands="Aya. Manopolas +2",legs="Viti. Tights +3",
 			--	feet="Leth. Houseaux +3",neck="Incanter's Torque",waist="Olympus Sash",left_ear="Mimir Earring",right_ear="Andoaa Earring",left_ring="Stikini Ring +1",right_ring="Stikini Ring +1", back="Ghostfyre Cape",}		
 			
-		sets.Engaged.WoC = {ammo="Regal Gem",
-			head="Leth. Chappel +2",
-			body="Lethargy Sayon +2",
-			hands="Leth. Ganth. +2",
-			legs="Bunzi's Pants",
-			feet="Leth. Houseaux +3",
-			neck={ name="Dls. Torque +2", augments={'Path: A',}},
-			waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-			right_ear="Crep. Earring",
-			left_ear="Digni. Earring",
-			left_ring="Chirich Ring",
-			right_ring="Chirich Ring +1",
-			back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},}
-			sets.Engaged.WoC.DW = sets.Engaged.WoC
+		-- The WoC Enspell-M.Acc Special.
+			--	sets.Engaged.WoC = {ammo="Regal Gem",head="Leth. Chappel +2",body="Lethargy Sayon +2",hands="Leth. Ganth. +2",legs="Bunzi's Pants",feet="Leth. Houseaux +3",
+			--	neck={ name="Dls. Torque +2", augments={'Path: A',}},waist={ name="Sailfi Belt +1", augments={'Path: A',}},right_ear="Crep. Earring",left_ear="Digni. Earring",
+			--	left_ring="Chirich Ring",right_ring="Chirich Ring +1",back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},}
+			--	sets.Engaged.WoC.DW = sets.Engaged.WoC
+
 
 --{(Weapons.>--	
-	sets.Crocea 	= {main="Crocea Mors",sub="Genmei Shield",}	--Enspell.
-	sets.Magic		= {main="Crocea Mors",sub="Ammurapi Shield",}
-	sets.Naegling	= {main="Naegling",sub="Genmei Shield",}	--2k-Hold.
-	sets.Maxentius	= {main="Maxentius",sub="Genmei Shield",}	--2k-Hold.
-	sets.Tauret		= {main="Tauret",sub="Sacro Bulwark",}		--Cleave.
-	sets.Almace		= {main="Almace",sub="Genmei Shield",}		--Fencer.
+	sets.Crocea 	= {main="Crocea Mors",sub="Diamond Aspis",}	--Enspell.
 	sets.Excalibur	= {main="Excalibur",sub="Sacro Bulwark",}	--Tank.
+	sets.Almace		= {main="Almace",sub="Diamond Aspis",}		--Fencer.
+	sets.Maxentius	= {main="Maxentius",sub="Diamond Aspis",}	--2k-Hold.
+	--sets.Naegling	= {main="Naegling",sub="Diamond Aspis",}	--2k-Hold.
+	sets.Tauret		= {main="Tauret",sub="Sacro Bulwark",}		--Cleave.
+	sets.Magic		= {main="Crocea Mors",sub="Diamond Aspis",}	-- Here to prevent breaking.	
 	
 	sets.Crocea.DW 		= {main="Crocea Mors",sub="Gleti's Knife",}	--Gleti's is fine.
-	--	Pick one based on current need.
-		sets.Magic.DW	= {main="Crocea Mors",sub="Bunzi's Rod",}	--Sanguine.
-	--	sets.Magic.DW	= {main="Crocea Mors",sub="Daybreak",}		--Seraph/Shining.
-	--	sets.Magic.DW	= {main="Crocea Mors",sub="Thibron",}		--Red Lotus.
-	sets.Naegling.DW	= {main="Naegling",sub="Thibron",}		--TP-Bonus.
-	sets.Maxentius.DW	= {main="Maxentius",sub="Thibron",}		--TP-Bonus.
-	sets.Tauret.DW		= {main="Tauret",sub="Gleti's Knife",}	--Crit.
+	--	sets.Excalibur.DW	= {main="Excalibur",sub="Sakpata's Sword",}	--Preserved for corner cases/augments later.
+	sets.Excalibur.DW	= {main="Excalibur",sub="Gleti's Knife",}	--Laugh.
 	sets.Almace.DW		= {main="Almace",sub="Gleti's Knife",}	--Crit.
-	sets.Excalibur.DW	= {main="Excalibur",sub="Sakpata's Sword",}	--Laugh.
+	sets.Maxentius.DW	= {main="Maxentius",sub="Thibron",}		--TP-Bonus.
+	--sets.Naegling.DW	= {main="Naegling",sub="Thibron",}		--TP-Bonus.
+	sets.Tauret.DW		= {main="Tauret",sub="Gleti's Knife",}	--Crit.
+	--	Pick one based on current need.
+	--	sets.Magic.DW	= {main="Crocea Mors",sub="Bunzi's Rod",}	--Sanguine.
+		sets.Magic.DW	= {main="Crocea Mors",sub="Daybreak",}		--Seraph/Shining.
+	--	sets.Magic.DW	= {main="Crocea Mors",sub="Thibron",}		--Red Lotus.	
+	
+	sets.NukeDW		= {main="Bunzi's Rod",sub="Daybreak",}	-- Nuke set for DW.
 	
 --{(JA Sets>--	
 	sets.JA = {}
 
 		sets.JA["Chainspell"] = {body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},}
 		
-		sets.JA["Provoke"] = {head="Rabid Visor",
-			body="Emet Harness +1",
-			legs="Zoar Subligar +1",
-			neck="Warder's Charm +1",
-			waist="Chaac Belt",
-			left_ear="Cryptic Earring",
-			right_ear="Friomisi Earring",
-			left_ring="Petrov Ring",
-			right_ring="Begrudging Ring",
-			back={ name="Sucellos's Cape", augments={'Enmity+10',}},} -- Emn+.
+		sets.JA["Provoke"] = {-- ammo="AnyEmn+2",
+			head="Rabid Visor",						-- Halitus.
+			body="Emet Harness +1",					-- [BiS.]
+			--hands="Dux Fng. Gnt. +1", 			-- Currently DNE, find some.
+			legs="Zoar Subligar +1",				-- [BiS.]
+			--feet="Rager Ledel. +1", 				-- WoE.
+			neck="Warder's Charm +1",				-- Sybartic's Necklace (10 vs 8)
+			waist="Chaac Belt",						-- Trance Belt.
+			left_ear="Cryptic Earring",				-- [BiS.]
+			right_ear="Friomisi Earring",			-- Trux (BCNM) or Pluto +1.
+			left_ring="Petrov Ring",				-- Options; https://www.ffxiah.com/search/item?&slots[]=24576&jobs[]=32&description=Enmity%2B5#adv
+			right_ring="Begrudging Ring",			-- BiS, but risky. Is fine.
+			back={ name="Sucellos's Cape", augments={'Enmity+10',}},} -- [BiS.]
 				sets.JA["Animated Flourish"] = set_combine(sets.JA["Provoke"],{})
 				
 		sets.JA.Waltz = {ammo="Staunch Tathlum",
@@ -316,6 +318,8 @@ function get_sets()
 			left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
 			right_ring="Defending Ring",
 			back="Kumbira Cape",}
+			
+		sets.JA.Time = {sub="Diamond Aspis",}
 
 --{(WS Sets - By Stat, specialty as needed.>--
 	sets.WS = { }
@@ -335,7 +339,7 @@ function get_sets()
 			back={ name="Sucellos's Cape", augments={'STR+20','Weapon skill damage +10%',}},}
 				sets.WS["Asuran Fists"] = set_combine(sets.WS["STR/Att"],{left_ear="Mache Earring +1",right_ear="Mache Earring +1"})
 			
-		sets.WS["STR/MND"] = {ammo="Regal Gem",
+		sets.WS["STR/MND"] = {ammo="Coiste Bodhar",
 			head={ name="Nyame Helm", augments={'Path: B',}},
 			body={ name="Nyame Mail", augments={'Path: B',}},
 			hands={ name="Nyame Gauntlets", augments={'Path: B',}},
@@ -343,10 +347,10 @@ function get_sets()
 			feet="Leth. Houseaux +3",
 			neck="Dls. Torque +2",
 			waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-			left_ear="Regal Earring",
+			left_ear="Regal Earring",										-- Test: Sherida Earring, DA+, STR+.
 			right_ear={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
 			left_ring="Epaminondas's Ring",
-			right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+			right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},	-- Test: Ilabrat Ring, Att+.
 			back={ name="Sucellos's Cape", augments={'STR+20','Weapon skill damage +10%',}},}
 			
 		sets.WS["Crit/DEX/Att"] = {ammo="Yetshila +1",
@@ -391,7 +395,7 @@ function get_sets()
 			 waist="Yemaya Belt",
 			left_ear="Telos Earring",
 			 right_ear="Enervating Earring",
-			left_ring="Cacoethic Ring +1",
+			--left_ring="Cacoethic Ring +1",
 			right_ring="Karieyh Ring",
 			back={ name="Sucellos's Cape", augments={'STR+20','Weapon skill damage +10%',}},} --Malig, and ranged acc.
 
@@ -507,14 +511,14 @@ function get_sets()
 
 			sets.MidCast.Duration= set_combine(sets.MidCast['Enhancing Magic'],{main="Colada",
 				sub="Ammurapi Shield",
-				head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +9',}},
+				head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},
 				legs={ name="Telchine Braconi", augments={'Enh. Mag. eff. dur. +9',}},
 				neck="Dls. Torque +2",
 				right_ear="Lethargy Earring",
 				waist="Embla Sash",})
 					sets.MidCast["Phalanx"] = set_combine(sets.MidCast.Duration,{main="Sakpata's Sword",head={ name="Chironic Hat", augments={'Phalanx +4'}},
 						hands={ name="Chironic Gloves", augments={'Phalanx +5'}},body={ name="Chironic Doublet", augments={'Phalanx +5',}},
-						legs={ name="Chironic Hose", augments={'Phalanx +4'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
+						legs={ name="Chironic Hose", augments={'Phalanx +5'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
 					sets.MidCast["Aquaveil"] = set_combine(sets.MidCast.Duration,{head="Amalric Coif +1",legs="Shedir Seraweels",hands="Regal Cuffs",waist="Emphatikos Rope",})
 					sets.MidCast["Stoneskin"] = set_combine(sets.MidCast.Duration,{hands="Stone Mufflers",legs="Shedir Seraweels",neck="Nodens Gorget",waist="Siegel Sash",left_ear="Earthcry Earring",})
 
@@ -608,7 +612,7 @@ function get_sets()
 
 		sets.MidCast.BlueChain = {ammo="Amar Cluster",head="Malignance Chapeau",body="Malignance Tabard",hands="Malignance Gloves",
 			legs="Carmine Cuisses +1",feet="Malignance Boots",neck="Incanter's Torque",waist="Eschan Stone",
-			right_ear="Mache Earring +1",left_ear="Mache Earring +1",left_ring="Cacoethic Ring +1",right_ring="Chirich Ring +1",
+			right_ear="Mache Earring +1",left_ear="Mache Earring +1",left_ring="Chirich Ring +1",right_ring="Chirich Ring +1",
 			back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Damage taken-5%',}},}
 
 		--sets.MidCast.Treasure = {head="Volte Cap",body="Volte Jupon",waist="Chaac Belt",}
@@ -623,8 +627,10 @@ function get_sets()
 		
 		sets.MidCast["Geomancy"] = set_combine(sets.MidCast.SIRD,{neck="Incanter's Torque",left_ring="Stikini Ring +1",right_ring="Stikini Ring +1",})
 	
-		sets.MidCast.Hate = set_combine(sets.MidCast.SIRD,{head="Rabid Visor",body="Emet Harness +1",hands="Nyame Gauntlets",legs="Zoar Subligar +1",neck="Warder's Charm +1",waist="Chaac Belt",
-			left_ear="Cryptic Earring",right_ear="Friomisi Earring",left_ring="Petrov Ring",right_ring="Begrudging Ring",back={ name="Sucellos's Cape", augments={'Chance of successful block +5',}},}) -- Emn+48~55
+		sets.MidCast.Hate = --set_combine(sets.MidCast.SIRD,
+			{head="Rabid Visor",body="Emet Harness +1",hands="Nyame Gauntlets",legs="Zoar Subligar +1",neck="Warder's Charm +1",waist="Chaac Belt",
+			left_ear="Cryptic Earring",right_ear="Friomisi Earring",left_ring="Petrov Ring",right_ring="Begrudging Ring",back={ name="Sucellos's Cape", augments={'Chance of successful block +5',}}
+			,}--) -- Emn+48~55
 			
 		--RDM Cleaving/Shield Sets.
 		sets.MidCast.AquaTank = set_combine(sets.MidCast.SIRD,{head="Amalric Coif +1",waist="Emphatikos Rope",hands="Regal Cuffs",})
@@ -680,6 +686,17 @@ end
 				equip(set_combine(sets.Idle.Kiting,sets[WeaponArray[WeaponIndex]]))
 			else
 				equip(set_combine(sets.Idle[IdleArray[IdleIndex]],sets[WeaponArray[WeaponIndex]].DW))
+			end
+		end
+	end
+	
+	function NukeOffhand()
+		if (player.sub_job:lower() == 'dnc') or (player.sub_job:lower() == 'nin') then
+		-- Shield TP Isolation. Primarily there just to ensure shit doesn't go sideways.
+			if EngagedIndex == 3 then
+				equip(set_combine(sets.MidCast[ElementalArray[ElementalIndex]],sets[WeaponArray[WeaponIndex]]))
+			else
+				equip(set_combine(sets.MidCast[ElementalArray[ElementalIndex]],sets.NukeDW))
 			end
 		end
 	end
@@ -836,10 +853,14 @@ end
 			elseif WSElem:contains(spell.name) then
 				equip(sets.WS["EleWS"])
 			else equip(sets.WS["STR/Att"])	
+			-- Weathercheck.
+			ObiCheck(spell)
 		end
 	elseif spell.type == "JobAbility" then
 		if sets.JA[spell.english] then
 			equip(sets.JA[spell.english])
+		else 
+			equip(set_combine(sets.MidCast.Hate,sets.JA.Time))
 		end
 	elseif spell.type == "Flourish1" then
 		if sets.JA[spell.english] then
@@ -851,8 +872,12 @@ end
 		end
 	elseif spell.type == "Effusion" then
 		equip(sets.MidCast[ElementalArray[ElementalIndex]])
-		-- The "Kia needs to build hate" clause.
-		else equip(sets.MidCast.Hate)
+	else	-- The "Kia needs to build hate" clause. Also includes timer++.
+		if (spell.type == "Step") or (spell.type == "Flourish1") or (spell.type == "Flourish2") or (spell.type == "Samba") then
+			equip(sets.MidCast.Hate)
+		else
+			equip(set_combine(sets.MidCast.Hate,sets.JA.Time))
+		end
 	end
 		-- Anti-TP Wipe Conditioning.
 		equipSet = {}
@@ -873,8 +898,11 @@ end
 			end
 		elseif spell.skill == "Elemental Magic" then
 			if spell.name:contains('ga') or spell.name:contains('ra') then
-				equip(sets.MidCast.AoE) 
-			else equip(sets.MidCast[ElementalArray[ElementalIndex]]) end			
+				equip(set_combine(sets.MidCast.AoE))
+			else 
+				equip(sets.MidCast[ElementalArray[ElementalIndex]])
+				NukeOffhand()
+			end
 		elseif spell.skill == "Enfeebling Magic" then
 			equip(sets.MidCast['Enfeebling Magic'][TierArray[TierIndex]])
 			SaboPaws()
@@ -892,8 +920,8 @@ end
 			else equip(set_combine(sets.MidCast.Duration,{left_ring="Sheltered Ring",})) end					
 		elseif Regens:contains(spell.name) then
 			if buffactive.Composure and spell.target.type ~= 'SELF' then
-				equip(set_combine(sets.MidCast.Composure,{main="Bolelabunga",body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +9',}},})) 
-			else equip(set_combine(sets.MidCast.Duration,{main="Bolelabunga",body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +9',}},})) end						
+				equip(set_combine(sets.MidCast.Composure,{main="Bolelabunga",body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},})) 
+			else equip(set_combine(sets.MidCast.Duration,{main="Bolelabunga",body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},})) end						
 		elseif Refreshes:contains(spell.name) then
 			if buffactive.Composure and spell.target.type ~= 'SELF' then
 				equip(set_combine(sets.MidCast.Composure,{head="Amalric Coif +1",body="Atrophy Tabard +3",legs="Leth. Fuseau +2",})) 

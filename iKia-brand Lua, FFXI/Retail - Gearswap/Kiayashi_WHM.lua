@@ -129,7 +129,7 @@ function get_sets()
 	sets.Idle = { }
 	
 		sets.Idle.Movement = {main="Daybreak",
-			sub="Genmei Shield",
+			sub="Diamond Aspis",
 			ammo="Homiliary",
 			head={ name="Chironic Hat", augments={'"Refresh"+2',}},
 			body="Shamash Robe",
@@ -144,7 +144,8 @@ function get_sets()
 			 right_ring="Karieyh Ring",
 			back="Kumbira Cape",}
 
-				sets.Idle.Defense = set_combine(sets.Idle.Movement,{head="Nyame Helm",
+				sets.Idle.Defense = set_combine(sets.Idle.Movement,{sub="Genmei Shield",
+					head="Nyame Helm",
 					hands="Bunzi's Gloves",
 					legs="Nyame Flanchard",
 					feet="Nyame Sollerets",
@@ -187,13 +188,13 @@ function get_sets()
 					right_ear="Suppanomimi",})
 					
 --{(Weapons.>--	
-	sets.Mew 		= {main="Maxentius",sub="Genmei Shield",}
+	sets.Mew 		= {main="Maxentius",sub="Diamond Aspis",}
 	sets.Magic 		= {main="Daybreak",sub="Ammurapi Shield",}
-	sets.Bap		= {main="Malignance Pole",sub="Rose Strap"}
+	sets.Bap		= {main="Malignance Pole",sub="Khonsu"}
 	
 	sets.Mew.DW 	= {main="Maxentius",sub="Izcalli",}
 	sets.Magic.DW 	= {main="Daybreak",sub="C. Palug Hammer",}
-	sets.Bap.DW		= {main="Malignance Pole",sub="Rose Strap"}
+	sets.Bap.DW		= {main="Malignance Pole",sub="Khonsu"}
 	
 --{(JA Sets>--	
 	sets.JA = {}
@@ -335,7 +336,7 @@ function get_sets()
 		sets.MidCast['Enhancing Magic']= set_combine(sets.Conserve,{main="Gada",
 			sub="Ammurapi Shield",
 			head="Befouled Crown",
-			body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +9',}},
+			body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},
 			hands="Inyan. Dastanas +2",
 			legs="Shedir Seraweels",
 			feet="Orsn. Duckbills +1", --119.
@@ -347,7 +348,7 @@ function get_sets()
 			right_ring="Stikini Ring +1",
 			back="Perimede Cape",}) --Adoulin.
 
-			sets.MidCast.Duration= set_combine(sets.MidCast['Enhancing Magic'],{head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +9',}},
+			sets.MidCast.Duration= set_combine(sets.MidCast['Enhancing Magic'],{head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},
 				hands={ name="Telchine Gloves", augments={'Enh. Mag. eff. dur. +9',}},
 				legs={ name="Telchine Braconi", augments={'Enh. Mag. eff. dur. +9',}},
 				feet={ name="Telchine Pigaches", augments={'Song spellcasting time -7%','Enh. Mag. eff. dur. +10',}},})
@@ -356,7 +357,7 @@ function get_sets()
 					sets.MidCast["Stoneskin"]=  set_combine(sets.MidCast.Duration,{legs="Shedir Seraweels",neck="Nodens Gorget",waist="Siegel Sash",left_ear="Earthcry Earring",})
 					sets.MidCast["Phalanx"]=  set_combine(sets.MidCast.Duration,{head={ name="Chironic Hat", augments={'Phalanx +4'}},
 						hands={ name="Chironic Gloves", augments={'Phalanx +5'}},body={ name="Chironic Doublet", augments={'Phalanx +5',}},
-						legs={ name="Chironic Hose", augments={'Phalanx +4'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
+						legs={ name="Chironic Hose", augments={'Phalanx +5'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
 
 			sets.MidCast.Bars = set_combine(sets.MidCast['Enhancing Magic'],{main="Beneficius",
 				head="Ebers Cap", --119.

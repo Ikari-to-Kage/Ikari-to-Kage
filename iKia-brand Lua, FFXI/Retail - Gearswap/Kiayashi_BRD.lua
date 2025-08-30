@@ -1,8 +1,8 @@
---Last Edit; 7-13-22-
+--Last Edit; 7ish-25-
 --	*-----------*  --
 --	| Welcome <3|  --
 --	|  iKia.BRD |  --
---	|v.4.0.Fuck |  --
+--	|  v.4.Baha |  --
 --	*-----------*  --
 ---------------------
 --{(HUD Set-up>------
@@ -104,7 +104,8 @@
 	DebuffSongs = S{"Foe Requiem","Foe Requiem II","Foe Requiem III","Foe Requiem IV","Foe Requiem V","Foe Requiem VI","Foe Requiem VII",
 			"Foe Lullaby","Foe Lullaby II","Maiden's Virelai","Pining Nocturne","Battlefield Elegy","Carnage Elegy",--"Horde Lullaby","Hoard Lullaby II",
 			"Fire Threnody","Fire Threnody II","Ice Threnody","Ice Threnody II","Wind Threnody","Wind Threnody II","Earth Threnody","Earth Threnody II",
-			"Ltng. Threnody","Ltng. Threnody II","Water Threnody","Water Threnody II","Light Threnody","Light Threnody II","Dark Threnody","Dark Threnody II",}
+			"Ltng. Threnody","Ltng. Threnody II","Water Threnody","Water Threnody II","Light Threnody","Light Threnody II","Dark Threnody","Dark Threnody II",
+			"Magic Finale",}
 	
 --{(Waltz/JA group maps, if anything else weird appears, put it here.>--
 
@@ -215,8 +216,7 @@ function get_sets()
 	sets.Tauret 	= {main="Tauret",sub="Genmei Shield",}
 	sets.Naegling	= {main="Naegling",sub="Genmei Shield",}
 	
---	sets.Carnwenhan.DW	= {main="Carnwenhan",sub="Gleti's Knife",}
-	sets.Carnwenhan.DW	= {main="Carnwenhan",sub="Praxidikai",}	-- WS trials.
+	sets.Carnwenhan.DW	= {main="Carnwenhan",sub="Gleti's Knife",}
 	sets.Tauret.DW 		= {main="Tauret",sub="Gleti's Knife",}
 	sets.Naegling.DW	= {main="Naegling",sub="Gleti's Knife",}
 	
@@ -224,7 +224,7 @@ function get_sets()
 	sets.JA = {}
 
 		sets.JA["Nightingale"] = {feet={ name="Brd. Slippers +2", augments={'Enhances "Nightingale" effect',}},}
-		sets.JA["Troubadour"] = {body={ name="Bihu Jstcorps. +3", augments={'Enhances "Troubadour" effect',}},}	
+		sets.JA["Troubadour"] = {body={ name="Bihu Justaucorps +4", augments={'Enhances "Troubadour" effect',}},}	
 		sets.JA["Soul Voice"] = {legs={ name="Brd. Cannions +2", augments={'Enhances "Soul Voice" effect',}},}
 		sets.JA["Clarion Call"] = { }
 		
@@ -233,7 +233,7 @@ function get_sets()
 			body="Inyanga Jubbah +2",
 			hands="Inyan. Dastanas +2",
 			legs="Dashing Subligar",
-			feet="Brioso Slippers +3",
+			feet="Brioso Slippers +4",
 			neck="Mnbw. Whistle +1",
 			waist="Chaac Belt",
 			left_ear="Etiolation Earring",
@@ -247,7 +247,7 @@ function get_sets()
 	
 		sets.WS["STR/Att"] = {range="Linos",
 			head="Nyame Helm",
-			body="Bihu Jstcorps. +3",
+			body="Bihu Jstcorps. +4",
 			hands="Nyame Gauntlets",
 			legs="Nyame Flanchard",
 			feet="Nyame Sollerets",
@@ -262,7 +262,7 @@ function get_sets()
 		
 		sets.WS["Mordant Rime"] = {range="Gjallarhorn",	
 			head="Nyame Helm",				-- ^ CHR WSD Linos.
-			body="Bihu Jstcorps. +3",
+			body="Brioso Slippers +4",
 			hands="Nyame Gauntlets",
 			legs="Nyame Flanchard",
 			feet="Nyame Sollerets",
@@ -288,7 +288,7 @@ function get_sets()
 			back={ name="Intarabus's Cape", augments={'Weapon skill damage +10%',}},}
 		
 		sets.WS["EleWS"] = {head="C. Palug Crown",
-			body="Bihu Jstcorps. +3",
+			body="Brioso Slippers +4",
 			hands="Nyame Gauntlets",
 			legs={ name="Chironic Hose", augments={'Sklchn.dmg.+3%','Weapon skill damage +7%',}},
 			feet={ name="Chironic Slippers", augments={'Weapon skill damage +6%',}},
@@ -348,7 +348,7 @@ function get_sets()
 			body="Fili Hongreline +2",
 			hands="Fili Manchettes +2",
 			legs="Inyanga Shalwar +2",
-			feet="Brioso Slippers +3",
+			feet="Brioso Slippers +4",
 			neck="Moonbow Whistle +1",
 			left_ring="Stikini Ring +1",
 			right_ring="Stikini Ring +1",
@@ -365,7 +365,7 @@ function get_sets()
 			body="Fili Hongreline +2",	--AF3+2.
 			hands="Fili Manchettes +2",	--AF3+2.
 			legs="Inyanga Shalwar +2",  --<*+Duration.
-			feet="Brioso Slippers +3",	--<*+Duration.
+			feet="Brioso Slippers +4",	--<*+Duration.
 			neck="Mnbw. Whistle +1",  	--<*+3 All Songs.
 			waist="Obstinate Sash",
 			left_ear="Regal Earring",
@@ -399,7 +399,7 @@ function get_sets()
 		sets.MidCast['Enhancing Magic']= set_combine(sets.MidCast.SIRD,{main="Pukulatmuj +1",
 			sub="Ammurapi Shield",
 			head="Umuthi Hat",
-			body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +9',}},
+			body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},
 			hands="Inyan. Dastanas +2",
 			legs="Shedir Seraweels",
 			feet="Kaykaus Boots +1",
@@ -412,15 +412,15 @@ function get_sets()
 			back="Perimede Cape",})
 
 			sets.MidCast.Duration= set_combine(sets.MidCast['Enhancing Magic'],{sub="Ammurapi Shield",
-				head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +9',}},
-				body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +9',}},
+				head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},
+				body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},
 				hands={ name="Telchine Gloves", augments={'Enh. Mag. eff. dur. +9',}},
 				legs={ name="Telchine Braconi", augments={'Enh. Mag. eff. dur. +9',}},
 				feet={ name="Telchine Pigaches", augments={'Song spellcasting time -7%','Enh. Mag. eff. dur. +10',}},
 				waist="Embla Sash",})
 					sets.MidCast["Phalanx"]=  set_combine(sets.MidCast.Duration,{head={ name="Chironic Hat", augments={'Phalanx +4'}},
 						hands={ name="Chironic Gloves", augments={'Phalanx +5'}},body={ name="Chironic Doublet", augments={'Phalanx +5',}},
-						legs={ name="Chironic Hose", augments={'Phalanx +4'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
+						legs={ name="Chironic Hose", augments={'Phalanx +5'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
 					sets.MidCast["Aquaveil"]=  set_combine(sets.MidCast.Duration,{head="Chironic Hat",hands="Regal Cuffs",legs="Shedir Seraweels",waist="Emphatikos Rope",})
 					sets.MidCast["Stoneskin"]=  set_combine(sets.MidCast.Duration,{legs="Shedir Seraweels",neck="Nodens Gorget",waist="Siegel Sash",left_ear="Earthcry Earring",})
 				--RDM Cleaving/Shield Sets.

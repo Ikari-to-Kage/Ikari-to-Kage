@@ -1,8 +1,8 @@
---Last Edit; 10-03-22-
+--Last Edit; 7ish-25-
 --	*-----------*  --
 --	| Welcome <3|  --
 --	|  iKia.SCH |  --
---	| v.3.Baha  |  --
+--	|  v.3.Baha |  --
 --	*-----------*  --
 ---------------------
 --{(HUD Set-up>------
@@ -299,6 +299,7 @@ function get_sets()
 	-- Enhancing Magic Kits
 		sets.MidCast['Enhancing Magic']= {main="Gada",
 				sub="Ammurapi Shield",
+				ammo="Savant's Treatise",
 				head="Befouled Crown",
 				body="Peda. Gown +3",
 				hands="Telchine Gloves",
@@ -311,19 +312,19 @@ function get_sets()
 				right_ring="Stikini Ring +1",
 				back="Perimede Cape",}
 				
-			sets.MidCast.Duration= set_combine(sets.MidCast['Enhancing Magic'],{head="Telchine Cap",})
+			sets.MidCast.Duration= set_combine(sets.MidCast['Enhancing Magic'],{head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},})
 					sets.MidCast["Phalanx"]=  set_combine(sets.MidCast.Duration,{head={ name="Chironic Hat", augments={'Phalanx +4'}},
 						hands={ name="Chironic Gloves", augments={'Phalanx +5'}},body={ name="Chironic Doublet", augments={'Phalanx +5',}},
-						legs={ name="Chironic Hose", augments={'Phalanx +4'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
+						legs={ name="Chironic Hose", augments={'Phalanx +5'}},feet={ name="Chironic Slippers", augments={'Phalanx +4'}},})
 					sets.MidCast["Aquaveil"]=  set_combine(sets.MidCast.Duration,{head="Amalric Coif +1",legs="Shedir Seraweels",hands="Regal Cuffs",waist="Emphatikos Rope",})
 					sets.MidCast["Stoneskin"]=  set_combine(sets.MidCast.Duration,{legs="Shedir Seraweels",neck="Nodens Gorget",waist="Siegel Sash",left_ear="Earthcry Earring",})
 
 			sets.MidCast.Recovery = set_combine(sets.MidCast.Duration,{main="Bolelabunga",
 					head="Arbatel Bonnet +2",
-					body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +9',}},
+					body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},
 					back="Bookworm's Cape",})
 			sets.MidCast.Time = set_combine(sets.MidCast.Duration,{
-					body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +9',}},
+					body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},
 					back="Lugh's Cape",})
 
 	-- Healing Kits

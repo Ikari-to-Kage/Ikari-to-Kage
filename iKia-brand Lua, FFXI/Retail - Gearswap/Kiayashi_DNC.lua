@@ -265,7 +265,7 @@ function get_sets()
 	sets.PreCast = { }
 	
 	sets.PreCast.FastCast = {ammo="Impatiens",
-		head="Herculean Helm",
+		--head="Herculean Helm",
 		body="Taeon Tabard",
 		hands="Leyline Gloves",
 		legs="Taeon Tights",

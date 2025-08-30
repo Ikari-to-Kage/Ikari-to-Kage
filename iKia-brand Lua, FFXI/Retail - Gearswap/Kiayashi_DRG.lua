@@ -1,8 +1,8 @@
---Last Edit; 7-13-22-
+--Last Edit; 7ish-25-
 --	*-----------*  --
 --	| Welcome <3|  --
 --	|  iKia.DRG |  --
---	|v.3.0.Fuck |  --
+--	|  v.3.Baha |  --
 --	*-----------*  --
 ---------------------
 --{(HUD Set-up>------
@@ -49,7 +49,7 @@
 	IdleIndex = 1 
 	IdleArray = {"Movement","Defense","Sacrilege"}
 	EngagedIndex = 1 
-	EngagedArray = {"General","Defense","Solitude"}--"Accuracy",} --"Solitude"}
+	EngagedArray = {"General","Defense","Solitude"}
 	WeaponIndex = 1
 	WeaponArray = {"Trishula","Beatstick","Suffering",}
 
@@ -112,7 +112,7 @@ function get_sets()
 				 legs="Ptero. Brais +3",	-- WyPDT-11%
 				feet="Nyame Sollerets",		-- DT-7%
 				 neck="Dgn. Collar +1",		-- Pet, DT-20%
-				left_ring="Shadow Ring",	-- Magic Annul.
+				--left_ring="Shadow Ring",	-- Magic Annul.
 				right_ring="Defending Ring",-- DT-10%
 				back={ name="Brigantia's Mantle", augments={'Phys. dmg. taken-10%',}},})
 			-- DmgReduc >> [Me: DT-35%, PDT-17%] [Rai: DT-28%, PDT-11%]
@@ -127,37 +127,39 @@ function get_sets()
 --{(Melee Sets>--
 	sets.Engaged = {}
 		
-		sets.Engaged.General = {ammo="Ginsen",
+		sets.Engaged.General = {ammo="Coiste Bodhar",
 			head="Flam. Zucchetto +2",
-			body={ name="Valorous Mail", augments={'Accuracy+29','"Store TP"+8'}},
-			hands="Flam. Manopolas +2",
-			legs="Ptero. Brais +3",
+			body="Gleti's Cuirass",			-- Peltast's Plackart +3, Pushes us back to 4 hit. Also shares snacks with Raiden, which is Important.
+			hands="Gleti's Gauntlets",
+			legs="Ptero. Brais +3", 
 			feet="Flam. Gambieras +2",
 			neck="Anu Torque",
-			waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-			right_ear="Sherida Earring",
+			waist="Sailfi Belt +1",
 			left_ear="Cessance Earring",
-			left_ring="Chirich Ring +1",
-			right_ring="Petrov Ring",
+			right_ear="Sherida Earring",
+			left_ring="Niqmaddu Ring",
+			right_ring="Petrov Ring",		-- When Body is upgraded, look at Regal. Or Defending. 
 			back={ name="Brigantia's Mantle", augments={'DEX+20','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},}
-		-- Accuracy >> [Trishula: 1316] [Naegling: 1240] -- To-Hit-# >> [Trishula: 4 * 271/SAM] [Naegling: 8 * 126/WAR]
-		-- DmgReduc >> [Me: PDT-12%] [Rai: PDT-11%] -- Defense >> [Def: 1275~] [Eva: 790~]
+		-- Accuracy >> [Trishula: 1296] [Naegling: 1220] 			-- Multi-hit >> [DA: 34+15%] [TA: 7%] [QA: 3%]
+		-- To-Hit-# >> [Trishula: 5 * 239/SAM50+] [Naegling: 10 * 108/WAR50+]	(When Peltast's Plackart+3 : 4 * 252/SAM50+, 9 * 115/WAR50+)
+		-- DmgReduc >> [Me: PDT-26%] [Rai: DT-8% PDT-11%] 			-- Defense >> [Def: 1351~] [Eva: 881~]
 		
 		sets.Engaged.Defense = {ammo="Crepuscular Pebble",
-			head="Hjarrandi Helm",
-			body={ name="Gleti's Cuirass", augments={'Path: A',}},
-			hands="Gleti's Gauntlets",
-			legs={ name="Ptero. Brais +3", augments={'Enhances "Strafe" effect',}},
-			feet="Flam. Gambieras +2",
-			neck={ name="Dgn. Collar +1", augments={'Path: A',}},
-			waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-			left_ear="Cessance Earring",
-			right_ear="Sherida Earring",
-			left_ring="Chirich Ring +1",
-			right_ring="Defending Ring",
+			head="Hjarrandi Helm",			-- DT10, DA7, STP7
+			body="Gleti's Cuirass",			-- PDT9, DA4
+			hands="Gleti's Gauntlets",		-- PDT7, P.DT8
+			legs="Ptero. Brais +3", 		-- STP10, P.PDT11
+			feet="Flam. Gambieras +2",		-- STP6, DA6
+			neck="Dgn. Collar +1",			-- P.PDT20
+			waist="Sailfi Belt +1",			-- TA2, DA5, eventually.
+			left_ear="Telos Earring",		-- DA1, STP5
+			right_ear="Sherida Earring",	-- DA5, STP5
+			left_ring="Niqmaddu Ring",		-- QA3
+			right_ring="Defending Ring",	-- DT10
 			back={ name="Brigantia's Mantle", augments={'DEX+20','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},}
-		-- Accuracy >> [Trishula: 1297] [Naegling: 1221] -- To-Hit-# >> [Trishula: 5 * 228/SAM] [Naegling: 10 * 102/WAR]
-		-- DmgReduc >> [Me: DT-23%, PDT-26%] [Rai: DT-28%, PDT-11%] -- Defense >> [Def: 1380~] [Eva: 870~] -- HASTE: 22% Listed.
+		-- Accuracy >> [Trishula: 1300] [Naegling: 1225]  				-- Multi-hit >> [DA: 37+15%] [TA: 2%] [QA: 3%]
+		-- To-Hit-# >> [Trishula: 5 * 231/SAM50+] [Naegling: 10 * 104/WAR50+] HASTE: 22% Listed. Raiden is normally Enough.
+		-- DmgReduc >> [Me: DT-23%, PDT-26%] [Rai: DT-28%, PDT-11%] 	-- Defense >> [Def: 1379~] [Eva: 868~]
 
 			sets.Engaged.Solitude = set_combine(sets.Engaged.Defense,{
 					--ammo="Coiste Bodhar",
@@ -166,19 +168,7 @@ function get_sets()
 				neck="Anu Torque",
 				left_ear="Cessance Earring",
 					--left_ear="Brutal Earring", --Maybe.
-				})
-			-- To Replace .Acc. Maintains DT, way more DA, lower acc than standard DT.
-
-		sets.Engaged.Accuracy = set_combine(sets.Engaged.General,{ammo="Amar Cluster",
-				body="Flamma Korazin +2",
-				legs="Flamma Dirs +2",
-				neck={ name="Dgn. Collar +1", augments={'Path: A',}},
-				left_ear="Mache Earring +1",
-				right_ear="Mache Earring +1",
-				right_ring="Cacoethic Ring +1",})
-		-- Accuracy >> [Trishula: 1360] [Naegling: 1284] -- To-Hit-# >> [Trishula: 5 * 234/SAM] [Naegling: 10 * 105/WAR]
-		-- DmgReduc >> [Me: PDT-10%] [Rai: DT-20%] -- Defense >> [Def: 1340~] [Eva: 830~]
-		
+				})	-- Someone made me eat Raiden. They will pay.
 
 --{(Weapons.>--	
 	sets.Trishula 	= {main="Trishula",sub="Utu Grip",}
@@ -194,7 +184,7 @@ function get_sets()
 	sets.JA["Angon"] = {ammo="Angon",hands="Ptero. Fin. G. +3",
 			head="Volte Cap",body="Volte Jupon",waist="Chaac Belt",} --Also TH4! 
 
-	sets.JA["Jump"] = {ammo="Ginsen",			--STP+3
+	sets.JA["Jump"] = {ammo="Coiste Bodhar",	--STP+3, DA+3
 		head="Hjarrandi Helm",					--STP+7, DA+6
 		body={ name="Valorous Mail", augments={'"Store TP"+8',}}, --DA+2
 		hands="Sulev. Gauntlets +2",			--DA+6
@@ -222,56 +212,53 @@ function get_sets()
 --{(WS Sets - By Stat, specialty as needed.>--
 	sets.WS = { }
 	
-		sets.WSStr = {ammo="Knobkierrie", 			-- WSD+6. 	[Stardiver.]
-			head="Ptero. Armet +3",					-- [check]
-			body="Ptero. Mail +3",					-- [check]
-			hands="Sulev. Gauntlets +2",			-- [check]
-			legs="Sulev. Cuisses +2",				-- [check]
-			feet="Flam. Gambieras +2",				-- [check]
+		sets.WSStr = {ammo="Coiste Bodhar", 		-- Stat/Att. 	[Stardiver.]
+			head="Ptero. Armet +3",					-- Stat/Att, TA+4
+			body="Nyame Mail",						-- WSD+11, SC+7, DA+4
+			hands="Ptero. Fin. G. +3",				-- Stat/Att, WSD+10.	-- Peltast's possibily better?
+			legs="Nyame Flanchard",					-- WSD+8, SC+6
+			feet="Nyame Sollerets",					-- WSD+7, SC+5
 			neck="Fotia Gorget", waist="Fotia Belt",-- [check]
 			left_ear="Moonshade Earring",			-- [check]
-			right_ear="Sherida Earring",			-- [check]
-			left_ring="Apate Ring",					-- Niqmaddu Ring
-			right_ring="Petrov Ring",				-- Regal Ring
-			back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','"Dbl.Atk."+10',}},}
+			right_ear="Thrud Earring",				-- Stat, WSD+3.
+			left_ring="Niqmaddu Ring",				-- Stat, QA+3
+			right_ring="Royal Ring",				-- Stat/Att.
+			back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10',}},}
 
 		sets.WSSkCh = {ammo="Knobkierrie", 			-- WSD+6. 	[Cam's/Sonic/WSD/SC+.]
-			head="Ptero. Armet +3",					-- [check]
-			body="Nyame Mail",						-- WSD+~
-			hands="Ptero. Fin. G. +3",				-- WSD+10.
-			legs="Vishap Brais +3",					-- WSD+10.
-			feet="Sulev. Leggings +2",				-- WSD+7.
-			neck="Fotia Gorget", waist="Fotia Belt",-- [check]
-			left_ear="Moonshade Earring",			-- [check]
-			right_ear="Thrud Earring",				-- WSD+3.
-			left_ring="Epaminondas's Ring",			-- WSD+5.
-			right_ring="Karieyh Ring",				-- WSD+3.
-			back={ name="Brigantia's Mantle", augments={'STR+20','STR+10','Weapon skill damage +10%',}},}
-		--body="Sulevia's Plate. +2", 			-- Skillchain+7.
-		--hands="Valorous Mitts",	 			-- Skillchain+5, Aug+3.
-		--right_ring="Mujin Band", 				-- Skillchain+5.
+			head="Ptero. Armet +3",					-- Stat/Att, TA+4. Peltast's is better, by far.
+			body="Nyame Mail",						-- WSD+11, SC+7, DA+4
+			hands="Ptero. Fin. G. +3",				-- Stat/Att, WSD+10. To +4.
+			legs="Nyame Flanchard",					-- WSD+8, SC+6
+			feet="Nyame Sollerets",					-- WSD+7, SC+5
+			neck="Dgn. Collar +1", waist="Sailfi Belt +1",
+			left_ear="Moonshade Earring",			-- [check] Peltast's +2 if we ever get it.
+			right_ear="Thrud Earring",				-- Stat, WSD+3.
+			left_ring="Niqmaddu Ring",				-- Stat, QA+3
+			right_ring="Royal Ring",				-- Stat/Att.
+			back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},}
 
-		sets.WSCrit = {ammo="Knobkierrie", 			-- WSD+6. 	[CritPlz, w/<3, Drakesbane.]
-			head={ name="Valorous Mask", augments={'Weapon skill damage +4%',}}, --Blistering.
+		sets.WSCrit = {ammo="Coiste Bodhar", 		-- Stat/Att. 	[CritPlz, w/<3, Drakesbane.]
+			head="Blistering Sallet +1", 			-- HOW'D I MISS THIS? FOR HOW LONG???
 			body="Gleti's Cuirass",					-- Crit%+8.
 			hands="Gleti's Gauntlets",				-- Crit%+6.
-			legs="Lustratio Subligar +1",			-- Crit%+3.
+			legs="Gleti's Breeches",				-- Crit%+7.
 			feet="Thereoid Greaves",				-- Crit%+4, Dmg+5.
-			neck="Fotia Gorget", waist="Sailfi Belt +1",
-			left_ear="Thrud Earring", 				-- [check]
-			right_ear="Sherida Earring",			-- [check]
-			left_ring="Apate Ring",					-- Niqmaddu Ring.
+			neck="Dgn. Collar +1", waist="Sailfi Belt +1",
+			left_ear="Moonshade Earring", 			-- [check]
+			right_ear="Pel. Earring +1",			-- +2 if it ever lives. Right only.
+			left_ring="Niqmaddu Ring",				-- Niqmaddu Ring.
 			right_ring="Begrudging Ring",			-- Crit%+5, Regal Ring.
 			back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','"Dbl.Atk."+10',}},} --Crit+Cape.
 			
-		sets.WSElem = {ammo="Knobkierrie",
+		sets.WSElem = {ammo="Knobkierrie",			-- Exactly what it says on the tin. Not used often at all.
 			head="Nyame Helm",
-			body={ name="Nyame Mail", augments={'Path: B',}},
-			hands={ name="Ptero. Fin. G. +3", augments={'Enhances "Angon" effect',}},
-			legs="Vishap Brais +3",
-			feet="Sulev. Leggings +2",
+			body="Nyame Mail",
+			hands="Nyame Gauntlets",
+			legs="Nyame Flanchard",
+			feet="Nyame Sollerets",
 			neck="Fotia Gorget",
-			waist="Eschan Stone",
+			waist="Fotia Belt",
 			left_ear="Friomisi Earring",
 			right_ear="Hermetic Earring",
 			left_ring="Epaminondas's Ring",
@@ -289,7 +276,7 @@ function get_sets()
 	sets.PreCast = { }
 		sets.PreCast.FastCast = {ammo="Impatiens", --QM+2%
 			head={ name="Carmine Mask", augments={'Accuracy+15','Mag. Acc.+10','"Fast Cast"+3',}},
-			body={ name="Taeon Tabard", augments={'Accuracy+23','"Dual Wield"+5',}},
+			body="Taeon Tabard",
 			hands="Leyline Gloves", --FC+5%, Augment+3%.
 			--legs={ name="Blood Cuisses", augments={'"Fast Cast"+5','Evasion+4','"Mag.Def.Bns."+4',}}, --Cause intimidating myself is fun.
 			feet={ name="Carmine Greaves +1", augments={'Accuracy+12','DEX+12','MND+20',}},
@@ -320,17 +307,21 @@ function get_sets()
 			
 		sets.MidCast['Stone']= set_combine(sets.BreathTrigger,{head="Volte Cap",body="Volte Jupon",waist="Chaac Belt",})
 
-		sets.HealingBreath = {head={ name="Ptero. Armet +3", augments={'Enhances "Deep Breathing" effect',}},
-			body={ name="Acro Surcoat", augments={'Pet: Mag. Acc.+24','Pet: Breath+7','Pet: Damage taken -4%',}},
-			hands={ name="Acro Gauntlets", augments={'Pet: Mag. Acc.+18','Pet: Breath+8','Pet: Damage taken -4%',}},
-			legs="Vishap Brais +3",
-			feet={ name="Ptero. Greaves +3", augments={'Enhances "Empathy" effect',}},
-			neck="Dgn. Collar +1",
-			waist="Incarnation Sash", --M.acc+.
-			back={ name="Updraft Mantle", augments={'STR+5','Pet: Breath+10','Pet: Damage taken -1%',}},
-			left_ear="Pel. Earring +1"}
+		sets.HealingBreath = {head="Ptero. Armet +3",	-- Breath+28
+			body="Acro Surcoat", 		-- Breath +7, M.Acc.+24
+			hands="Acro Gauntlets", 	-- Breath +8, M.Acc.+18 
+			legs="Vishap Brais +3",		-- HP+27%
+			feet="Ptero. Greaves +3",	-- HP+290.
+			neck="Dgn. Collar +1",		-- Level+1.
+			waist="Incarnation Sash", 	-- M.Acc+15.
+			right_ear="Pel. Earring +1",-- Level+1.
+			--left_ring="Shadow Ring",	-- Magic Annul.
+			right_ring="Defending Ring",-- DT-10% cause this set is MADE OF PAPER--
+			back={ name="Updraft Mantle", augments={'STR+5','Pet: Breath+10','Pet: Damage taken -1%',}},}
 
-		sets.ElementalBreath = sets.HealingBreath -- One day, when Gleti's Boots are non-bugged, replace this.
+		sets.ElementalBreath = sets.HealingBreath 
+		-- Take a look, genuinely, at Gleti's/AF3+3 M.Acc bumps. Maybe in non augment breath spots?
+		-- BG Wiki: Tatang for for info.
 			Breath = sets.HealingBreath
 
 	sets.Static = {main='',sub='',range=''}
